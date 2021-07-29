@@ -7,10 +7,7 @@ def game_update():
 
 
 def forward():
-    global x
-    x += 10
-    c.create_rectangle(x, y, x + 200, y +100, fill='yellow', outline='brown', width=3, activedash=(5, 4))
-    c.create_oval(520, 120, 580, 180, fill='red', outline='green', width=3, activedash=(5, 4))
+    c.move(snake,10,0 )
 
 
 root = Tk()
@@ -19,6 +16,10 @@ c.pack()
 direction = 0
 x = 100
 y = 100
+
+snake = c.create_rectangle(x, y, x + 200, y + 100 , fill='yellow', outline='brown', width=3, activedash=(5, 4))
+eat = c.create_oval(520, 120, 580, 180, fill='red', outline='green', width=3, activedash=(5, 4))
+
 
 game_update()
 root.mainloop()
