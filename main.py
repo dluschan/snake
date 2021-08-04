@@ -2,9 +2,9 @@ from tkinter import *
 
 
 def game_update():
-    forward()
-    paint()
-    root.after(500, game_update)
+        forward()
+        paint()
+        root.after(500, game_update)
 
 
 def paint():
@@ -73,9 +73,7 @@ root.bind('<a>', left)
 c = Canvas(root, width=1000, height=1000, bg='light green')
 c.pack()
 direction = 2
-x = 100
-y = 100
-snake = [[1, 1], [2, 1], [3, 1], [4, 1], [5, 1]]
+snake = [[3, 1], [2, 1], [1, 1]]
 eat = c.create_oval(520, 120, 580, 180, fill='red', outline='green', width=3, activedash=(5, 4))
 game_update()
 root.mainloop()
