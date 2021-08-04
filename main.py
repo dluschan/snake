@@ -39,22 +39,26 @@ def forward():
 
 def up(event):
     global direction
-    direction = 3
+    if direction != 4:
+        direction = 3
 
 
 def left(event):
     global direction
-    direction = 1
+    if direction != 2:
+        direction = 1
 
 
 def right(event):
     global direction
-    direction = 2
+    if direction != 1:
+        direction = 2
 
 
 def down(event):
     global direction
-    direction = 4
+    if direction != 3:
+        direction = 4
 
 
 root = Tk()
