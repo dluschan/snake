@@ -9,6 +9,9 @@ def game_update():
 
 def paint():
     c.delete("all")
+    for wall in walls:
+        c.create_rectangle(wall[0] * scale, wall[1] * scale, wall[0] * scale + scale, wall[1] * scale + scale, fill='black',
+                           outline='black', width=3, activedash=(5, 4))
     for link in snake:
         c.create_rectangle(link[0] * scale, link[1] * scale, link[0] * scale + scale, link[1] * scale + scale, fill='yellow',
                            outline='brown', width=3, activedash=(5, 4))  
@@ -76,6 +79,13 @@ c = Canvas(root, width=size[0]*scale, height=size[1]*scale, bg='light green')
 c.pack()
 direction = 2
 snake = [[3, 1], [2, 1], [1, 1]]
+walls = set()
+for y in range(size[1]):
+    walls.add((0, y))
+    walls.add((size[0] - 1, y))
+for x in range(size[0]):
+    walls.add((x, 0))
+    walls.add((x, size[1] - 1))
 eat = c.create_oval(520, 120, 580, 180, fill='red', outline='green', width=3, activedash=(5, 4))
 game_update()
 root.mainloop()
