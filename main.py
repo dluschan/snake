@@ -10,8 +10,8 @@ def game_update():
 def paint():
     c.delete("all")
     for link in snake:
-        c.create_rectangle(link[0] * 100, link[1] * 100, link[0] * 100 + 100, link[1] * 100 + 100, fill='yellow',
-                           outline='brown', width=3, activedash=(5, 4))
+        c.create_rectangle(link[0] * scale, link[1] * scale, link[0] * scale + scale, link[1] * scale + scale, fill='yellow',
+                           outline='brown', width=3, activedash=(5, 4))  
 
 
 def forward():
@@ -70,7 +70,9 @@ root.bind('<w>', up)
 root.bind('<s>', down)
 root.bind('<d>', right)
 root.bind('<a>', left)
-c = Canvas(root, width=1000, height=1000, bg='light green')
+size = (14, 8)
+scale = 100
+c = Canvas(root, width=size[0]*scale, height=size[1]*scale, bg='light green')
 c.pack()
 direction = 2
 snake = [[3, 1], [2, 1], [1, 1]]
