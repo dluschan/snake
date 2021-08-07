@@ -70,7 +70,9 @@ root.bind('<w>', up)
 root.bind('<s>', down)
 root.bind('<d>', right)
 root.bind('<a>', left)
-c = Canvas(root, width=1000, height=1000, bg='light green')
+size = (14, 8)
+scale = 100
+c = Canvas(root, width=size[0]*scale, height=size[1]*scale, bg='light green')
 c.pack()
 direction = 2
 snake = [[3, 1], [2, 1], [1, 1]]
