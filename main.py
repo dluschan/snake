@@ -2,9 +2,9 @@ from tkinter import *
 
 
 def game_update():
-        forward()
-        paint()
-        root.after(500, game_update)
+    forward()
+    paint()
+    root.after(500, game_update)
 
 
 def paint():
