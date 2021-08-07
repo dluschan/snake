@@ -2,10 +2,12 @@ from tkinter import *
 
 
 def game_update():
+    global snakeM
     global snake
+    snakeM = set(snake)
     for elem in snake:
-        if elem in walls:
-            snake = [(3, 1), (2, 1), (1, 1)]
+        if elem in walls or len(snake) != len(snakeM):
+            snake = [(7, 2), (6, 2), (5, 2), (4, 2), (3, 2), (2, 2)]
             global direction
             direction = 0
     if direction != 0:
@@ -85,7 +87,8 @@ scale = 100
 c = Canvas(root, width=size[0]*scale, height=size[1]*scale, bg='light green')
 c.pack()
 direction = 0
-snake = [(3, 1), (2, 1), (1, 1)]
+snake = [(7, 2), (6, 2), (5, 2), (4, 2), (3, 2), (2, 2)]
+snakeM = set(snake)
 walls = set()
 for y in range(size[1]):
     walls.add((0, y))
