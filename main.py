@@ -2,19 +2,26 @@ from tkinter import *
 
 
 def game_update():
-    forward()
+    global snake
+    for elem in snake:
+        if elem in walls:
+            snake = [(3, 1), (2, 1), (1, 1)]
+            global direction
+            direction = 0
+    if direction != 0:
+        forward()
     paint()
     root.after(500, game_update)
 
 
 def paint():
     c.delete("all")
+    for link in snake:
+        c.create_rectangle(link[0] * scale, link[1] * scale, link[0] * scale + scale, link[1] * scale + scale, fill='yellow',
+                           outline='brown', width=3, activedash=(5, 4))
     for wall in walls:
         c.create_rectangle(wall[0] * scale, wall[1] * scale, wall[0] * scale + scale, wall[1] * scale + scale, fill='black',
                            outline='black', width=3, activedash=(5, 4))
-    for link in snake:
-        c.create_rectangle(link[0] * scale, link[1] * scale, link[0] * scale + scale, link[1] * scale + scale, fill='yellow',
-                           outline='brown', width=3, activedash=(5, 4))  
 
 
 def forward():
@@ -36,7 +43,7 @@ def forward():
     if direction == 4:
         x = snake[0][0]
         y = snake[0][1] + 1
-    target = [x, y]
+    target = (x, y)
     snake = [target] + snake[:-1]
 
 
@@ -48,7 +55,7 @@ def up(event):
 
 def left(event):
     global direction
-    if direction != 2:
+    if direction != 2 and direction != 0:
         direction = 1
 
 
@@ -77,8 +84,8 @@ size = (14, 8)
 scale = 100
 c = Canvas(root, width=size[0]*scale, height=size[1]*scale, bg='light green')
 c.pack()
-direction = 2
-snake = [[3, 1], [2, 1], [1, 1]]
+direction = 0
+snake = [(3, 1), (2, 1), (1, 1)]
 walls = set()
 for y in range(size[1]):
     walls.add((0, y))
