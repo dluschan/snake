@@ -2,17 +2,17 @@ from tkinter import *
 
 
 def game_update():
+    global direction
+    if direction != 0:
+        forward()
+    paint()
     global snakeM
     global snake
     snakeM = set(snake)
     for elem in snake:
         if elem in walls or len(snake) != len(snakeM):
             snake = [(7, 2), (6, 2), (5, 2), (4, 2), (3, 2), (2, 2)]
-            global direction
             direction = 0
-    if direction != 0:
-        forward()
-    paint()
     root.after(500, game_update)
 
 
@@ -23,7 +23,7 @@ def paint():
                            outline='brown', width=3, activedash=(5, 4))
     for wall in walls:
         c.create_rectangle(wall[0] * scale, wall[1] * scale, wall[0] * scale + scale, wall[1] * scale + scale, fill='black',
-                           outline='black', width=3, activedash=(5, 4))
+                           outline='green', width=3, activedash=(5, 4))
 
 
 def forward():
