@@ -19,11 +19,11 @@ def game_update():
 def paint():
     c.delete("all")
     for link in snake:
-        c.create_rectangle(link[0] * scale, link[1] * scale, link[0] * scale + scale, link[1] * scale + scale, fill='yellow',
-                           outline='brown', width=3, activedash=(5, 4))
+        c.create_rectangle(link[0] * scale, link[1] * scale, link[0] * scale + scale, link[1] * scale + scale,
+                           fill='yellow', outline='brown', width=3, activedash=(5, 4))
     for wall in walls:
-        c.create_rectangle(wall[0] * scale, wall[1] * scale, wall[0] * scale + scale, wall[1] * scale + scale, fill='black',
-                           outline='green', width=5, activedash=(5, 4))
+        c.create_rectangle(wall[0] * scale, wall[1] * scale, wall[0] * scale + scale, wall[1] * scale + scale,
+                           fill='black', outline='green', width=5, activedash=(5, 4))
 
 
 def forward():
