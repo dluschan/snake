@@ -1,23 +1,31 @@
 from tkinter import *
+from random import choice
 
 
 def game_update():
-    global direction
-    if direction != 0:
-        forward()
+    global snake, cell, direction
+    snakeM = set(snake)
+    available = all - (walls | snakeM)
+    if cell in snake:
+        if direction != 0:
+            forward()
+        cell = choice(list(available))
+    else:
+        if direction != 0:
+            forward()
     paint()
-    global snakeM
-    global snake
     snakeM = set(snake)
     for elem in snake:
         if elem in walls or len(snake) != len(snakeM):
-            snake = [(7, 2), (6, 2), (5, 2), (4, 2), (3, 2), (2, 2)]
+            snake = [(4, 2), (3, 2), (2, 2)]
             direction = 0
     root.after(500, game_update)
 
 
 def paint():
     c.delete("all")
+    c.create_oval(cell[0] * scale, cell[1] * scale, cell[0] * scale + scale, cell[1] * scale + scale,
+                       fill='red', outline='green', width=3, activedash=(5, 4))
     for link in snake:
         c.create_rectangle(link[0] * scale, link[1] * scale, link[0] * scale + scale, link[1] * scale + scale,
                            fill='yellow', outline='brown', width=3, activedash=(5, 4))
@@ -46,7 +54,10 @@ def forward():
         x = snake[0][0]
         y = snake[0][1] + 1
     target = (x, y)
-    snake = [target] + snake[:-1]
+    if cell not in snake:
+        snake = [target] + snake[:-1]
+    else:
+        snake = [target] + snake
 
 
 def up(event):
@@ -87,7 +98,7 @@ scale = 100
 c = Canvas(root, width=size[0]*scale, height=size[1]*scale, bg='light green')
 c.pack()
 direction = 0
-snake = [(7, 2), (6, 2), (5, 2), (4, 2), (3, 2), (2, 2)]
+snake = [(4, 2), (3, 2), (2, 2)]
 snakeM = set(snake)
 walls = set()
 for y in range(size[1]):
@@ -96,6 +107,10 @@ for y in range(size[1]):
 for x in range(size[0]):
     walls.add((x, 0))
     walls.add((x, size[1] - 1))
-eat = c.create_oval(520, 120, 580, 180, fill='red', outline='green', width=3, activedash=(5, 4))
+all = set()
+for i in range(size[0]):
+    for j in range(size[1]):
+        all.add((i, j))
+cell = (5 ,5)
 game_update()
 root.mainloop()
