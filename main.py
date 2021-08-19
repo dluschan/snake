@@ -3,30 +3,40 @@ from random import choice
 
 
 def game_update():
-    global snake, cell, direction
+    if direction != 0:
+        forward()
+    paint()
+    global aid
+    aid = root.after(300, game_update)
+    print(aid)
+def game_start():
+    game_update()
+
+
+def random_apple():
     snakeM = set(snake)
     available = all - (walls | snakeM)
-    if cell in snake:
-        if direction != 0:
-            forward()
-        cell = choice(list(available))
-    else:
-        if direction != 0:
-            forward()
-    paint()
-    snakeM = set(snake)
-    for elem in snake:
-        if elem in walls or len(snake) != len(snakeM):
-            snake = [(4, 2), (3, 2), (2, 2)]
-            direction = 0
-    root.after(500, game_update)
+    global apple
+    apple = choice(list(available))
+
+def game_over():
+    print(aid,1)
+    global snake, direction
+    snake = [(3, 2), (2, 2)]
+    direction = 0
+    root.after_cancel(aid)
+    c.create_rectangle(0 * scale, 0 * scale, size[0] * scale + scale, size[1] * scale + scale,
+                       fill='black', outline='brown', width=3, activedash=(5, 4))
 
 
 def paint():
     c.delete("all")
-    c.create_oval(cell[0] * scale, cell[1] * scale, cell[0] * scale + scale, cell[1] * scale + scale,
+    c.create_oval(apple[0] * scale, apple[1] * scale, apple[0] * scale + scale, apple[1] * scale + scale,
                        fill='red', outline='green', width=3, activedash=(5, 4))
-    for link in snake:
+    head, *tail = snake
+    c.create_rectangle(head[0] * scale, head[1] * scale, head[0] * scale + scale, head[1] * scale + scale,
+                       fill='black', outline='brown', width=3, activedash=(5, 4))
+    for link in tail:
         c.create_rectangle(link[0] * scale, link[1] * scale, link[0] * scale + scale, link[1] * scale + scale,
                            fill='yellow', outline='brown', width=3, activedash=(5, 4))
     for wall in walls:
@@ -54,10 +64,14 @@ def forward():
         x = snake[0][0]
         y = snake[0][1] + 1
     target = (x, y)
-    if cell not in snake:
-        snake = [target] + snake[:-1]
+    if target in snake or target in walls:
+        game_over()
     else:
-        snake = [target] + snake
+        if apple not in snake:
+            snake = [target] + snake[:-1]
+        else:
+            random_apple()
+            snake = [target] + snake
 
 
 def up(event):
@@ -98,7 +112,7 @@ scale = 100
 c = Canvas(root, width=size[0]*scale, height=size[1]*scale, bg='light green')
 c.pack()
 direction = 0
-snake = [(4, 2), (3, 2), (2, 2)]
+snake = [(3, 2), (2, 2)]
 snakeM = set(snake)
 walls = set()
 for y in range(size[1]):
@@ -111,6 +125,6 @@ all = set()
 for i in range(size[0]):
     for j in range(size[1]):
         all.add((i, j))
-cell = (5 ,5)
+random_apple()
 game_update()
 root.mainloop()
