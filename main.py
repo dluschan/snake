@@ -6,9 +6,10 @@ def game_update():
     if direction != 0:
         forward()
     paint()
-    global aid
-    aid = root.after(300, game_update)
-    print(aid)
+    root.aid = root.after(300, game_update)
+    print(root.aid)
+
+
 def game_start():
     game_update()
 
@@ -19,12 +20,14 @@ def random_apple():
     global apple
     apple = choice(list(available))
 
+
 def game_over():
-    print(aid,1)
+    print(root.aid, 1)
     global snake, direction
     snake = [(3, 2), (2, 2)]
     direction = 0
-    root.after_cancel(aid)
+    root.after_cancel(root.aid)
+    root.aid = None
     c.create_rectangle(0 * scale, 0 * scale, size[0] * scale + scale, size[1] * scale + scale,
                        fill='black', outline='brown', width=3, activedash=(5, 4))
 
@@ -107,13 +110,12 @@ root.bind('<w>', up)
 root.bind('<s>', down)
 root.bind('<d>', right)
 root.bind('<a>', left)
-size = (14, 8)
+size = (19, 10)
 scale = 100
 c = Canvas(root, width=size[0]*scale, height=size[1]*scale, bg='light green')
 c.pack()
 direction = 0
 snake = [(3, 2), (2, 2)]
-snakeM = set(snake)
 walls = set()
 for y in range(size[1]):
     walls.add((0, y))
