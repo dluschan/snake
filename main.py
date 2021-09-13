@@ -1,13 +1,13 @@
-from tkinter import *
+from tkinter import Canvas, Tk
 from random import choice
 
 
 def game_update():
+    root.after_id = root.after(100, game_update)
+    print(root.after_id)
     if direction != 0:
         forward()
     paint()
-    root.aid = root.after(300, game_update)
-    print(root.aid)
 
 
 def game_start():
@@ -22,14 +22,10 @@ def random_apple():
 
 
 def game_over():
-    print(root.aid, 1)
-    global snake, direction
-    snake = [(3, 2), (2, 2)]
-    direction = 0
-    root.after_cancel(root.aid)
-    root.aid = None
-    c.create_rectangle(0 * scale, 0 * scale, size[0] * scale + scale, size[1] * scale + scale,
-                       fill='black', outline='brown', width=3, activedash=(5, 4))
+    if root.after_id:
+        print('game_over')
+        root.after_cancel(root.after_id)
+        root.after_id = None
 
 
 def paint():
@@ -102,6 +98,11 @@ def down(event):
 
 
 root = Tk()
+root.after_id = None
+size = (19, 10)
+scale = 100
+c = Canvas(root, width=size[0]*scale, height=size[1]*scale, bg='light green')
+c.pack()
 root.bind('<Up>', up)
 root.bind('<Down>', down)
 root.bind('<Left>', left)
@@ -110,10 +111,7 @@ root.bind('<w>', up)
 root.bind('<s>', down)
 root.bind('<d>', right)
 root.bind('<a>', left)
-size = (19, 10)
-scale = 100
-c = Canvas(root, width=size[0]*scale, height=size[1]*scale, bg='light green')
-c.pack()
+
 direction = 0
 snake = [(3, 2), (2, 2)]
 walls = set()
@@ -127,6 +125,7 @@ all = set()
 for i in range(size[0]):
     for j in range(size[1]):
         all.add((i, j))
+
 random_apple()
-game_update()
+game_start()
 root.mainloop()
