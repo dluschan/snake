@@ -4,7 +4,6 @@ from random import choice
 
 def game_update():
     root.after_id = root.after(100, game_update)
-    print(root.after_id)
     if direction != 0:
         forward()
     if root.after_id is not None:
@@ -12,9 +11,10 @@ def game_update():
 
 
 def game_start(event):
-    global  direction, snake
+    global  direction, snake, score
     direction = 0
     snake = [(3, 2), (2, 2)]
+    score = 0
     random_apple()
     game_update()
 
@@ -28,12 +28,19 @@ def random_apple():
 
 def game_over():
     if root.after_id:
-        print('game_over')
+        global bstscore
+        if score > bstscore:
+            bstscore = score
         root.after_cancel(root.after_id)
         root.after_id = None
         c.create_rectangle(1,1 , size[0] * scale, size[1] * scale,
                       fill='white', outline="red", width=3)
-        c.create_text(size[0] * scale // 2 , size[1]  * scale // 2,text="Game over", font="Verdana 40" )
+        c.create_text(size[0] * scale // 2, size[1] * scale // 2 - 100, text="Press Space to continue", font="Verdana 40")
+        c.create_text(size[0] * scale // 2 , size[1]  * scale // 2,text="Game over", font="Verdana 60",fill="red")
+        c.create_text(size[0] * scale // 2, size[1] * scale // 2 + 100, text=score, font="Verdana 40",fill="green")
+        c.create_text(size[0] * scale // 2, size[1] * scale // 2 + 300, text="best score", font="Verdana 40")
+        c.create_text(size[0] * scale // 2, size[1] * scale // 2 + 400, text=bstscore, font="Verdana 40")
+        print(score)
 
 
 def paint():
@@ -49,7 +56,7 @@ def paint():
     for wall in walls:
         c.create_rectangle(wall[0] * scale, wall[1] * scale, wall[0] * scale + scale, wall[1] * scale + scale,
                            fill='black', outline='green', width=5, activedash=(5, 4))
-    print(1)
+    c.create_text(size[0] * scale - 50,50, text=score, font="Verdana 40", fill="white")
 
 
 def forward():
@@ -78,6 +85,8 @@ def forward():
         if apple not in snake:
             snake = [target] + snake[:-1]
         else:
+            global score
+            score += 1
             random_apple()
             snake = [target] + snake
 
@@ -132,5 +141,6 @@ all = set()
 for i in range(size[0]):
     for j in range(size[1]):
         all.add((i, j))
+bstscore = 0
 game_start(True)
 root.mainloop()
