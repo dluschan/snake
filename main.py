@@ -7,10 +7,15 @@ def game_update():
     print(root.after_id)
     if direction != 0:
         forward()
-    paint()
+    if root.after_id is not None:
+        paint()
 
 
-def game_start():
+def game_start(event):
+    global  direction, snake
+    direction = 0
+    snake = [(3, 2), (2, 2)]
+    random_apple()
     game_update()
 
 
@@ -26,6 +31,9 @@ def game_over():
         print('game_over')
         root.after_cancel(root.after_id)
         root.after_id = None
+        c.create_rectangle(1,1 , size[0] * scale, size[1] * scale,
+                      fill='white', outline="red", width=3)
+        c.create_text(size[0] * scale // 2 , size[1]  * scale // 2,text="Game over", font="Verdana 40" )
 
 
 def paint():
@@ -34,13 +42,14 @@ def paint():
                        fill='red', outline='green', width=3, activedash=(5, 4))
     head, *tail = snake
     c.create_rectangle(head[0] * scale, head[1] * scale, head[0] * scale + scale, head[1] * scale + scale,
-                       fill='black', outline='brown', width=3, activedash=(5, 4))
+                       fill='black', outline='brown', width=3)
     for link in tail:
         c.create_rectangle(link[0] * scale, link[1] * scale, link[0] * scale + scale, link[1] * scale + scale,
                            fill='yellow', outline='brown', width=3, activedash=(5, 4))
     for wall in walls:
         c.create_rectangle(wall[0] * scale, wall[1] * scale, wall[0] * scale + scale, wall[1] * scale + scale,
                            fill='black', outline='green', width=5, activedash=(5, 4))
+    print(1)
 
 
 def forward():
@@ -111,9 +120,7 @@ root.bind('<w>', up)
 root.bind('<s>', down)
 root.bind('<d>', right)
 root.bind('<a>', left)
-
-direction = 0
-snake = [(3, 2), (2, 2)]
+root.bind('<space>', game_start)
 walls = set()
 for y in range(size[1]):
     walls.add((0, y))
@@ -125,7 +132,5 @@ all = set()
 for i in range(size[0]):
     for j in range(size[1]):
         all.add((i, j))
-
-random_apple()
-game_start()
+game_start(True)
 root.mainloop()
