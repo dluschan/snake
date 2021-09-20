@@ -94,26 +94,29 @@ def forward():
 
 
 def up(event):
-    global direction
-    if direction != 4:
+    global direction, r
+    if direction != 4 and r == 0:
         direction = 3
-
+        r += 1
 
 def left(event):
-    global direction
-    if direction != 2 and direction != 0:
+    global direction, r
+    if direction != 2 and direction != 0 and r == 0:
         direction = 1
+        r += 1
 
 
 def right(event):
-    global direction
-    if direction != 1:
+    global direction, r
+    if direction != 1 and r == 0:
+        r += 1
         direction = 2
 
 
 def down(event):
-    global direction
-    if direction != 3:
+    global direction, r
+    if direction != 3 and r == 0:
+        r += 1
         direction = 4
 
 
