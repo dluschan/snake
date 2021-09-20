@@ -11,6 +11,7 @@ def game_update():
 
 
 def game_start(event):
+    game_over()
     global  direction, snake, score
     direction = 0
     snake = [(3, 2), (2, 2)]
@@ -39,8 +40,7 @@ def game_over():
         c.create_text(size[0] * scale // 2 , size[1]  * scale // 2,text="Game over", font="Verdana 60",fill="red")
         c.create_text(size[0] * scale // 2, size[1] * scale // 2 + 100, text=score, font="Verdana 40",fill="green")
         c.create_text(size[0] * scale // 2, size[1] * scale // 2 + 300, text="best score", font="Verdana 40")
-        c.create_text(size[0] * scale // 2, size[1] * scale // 2 + 400, text=bstscore, font="Verdana 40")
-        print(score)
+        c.create_text(size[0] * scale // 2, size[1] * scale // 2 + 380, text=bstscore, font="Verdana 40",fill="red")
 
 
 def paint():
