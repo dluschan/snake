@@ -3,7 +3,9 @@ from random import choice
 
 
 def game_update():
-    root.after_id = root.after(100, game_update)
+    global r
+    r = 0
+    root.after_id = root.after(250, game_update)
     if direction != 0:
         forward()
     if root.after_id is not None:
