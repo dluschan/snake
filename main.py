@@ -81,17 +81,15 @@ def forward():
         x = snake[0][0]
         y = snake[0][1] + 1
     target = (x, y)
-    if target not in snake and target not in walls:
-        if apple not in snake:
-            snake = [target] + snake[:-1]
-        else:
-            global score
-            score += 1
-            random_apple()
-            snake = [target] + snake
+    if target == apple:
+        global score
+        score += 1
+        random_apple()
+        snake = [target] + snake
+    elif target not in snake[:-1] and target not in walls:
+        snake = [target] + snake[:-1]
     else:
         game_over()
-
 
 def up(event):
     global direction, r
