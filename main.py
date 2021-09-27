@@ -81,9 +81,7 @@ def forward():
         x = snake[0][0]
         y = snake[0][1] + 1
     target = (x, y)
-    if target in snake or target in walls:
-        game_over()
-    else:
+    if target not in snake and target not in walls:
         if apple not in snake:
             snake = [target] + snake[:-1]
         else:
@@ -91,6 +89,8 @@ def forward():
             score += 1
             random_apple()
             snake = [target] + snake
+    else:
+        game_over()
 
 
 def up(event):
