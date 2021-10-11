@@ -2,6 +2,10 @@ from tkinter import Canvas, Tk
 from random import choice
 
 
+class Game:
+    pass
+
+
 def game_update():
     global r
     r = 0
@@ -118,32 +122,33 @@ def down(event):
         direction = 4
 
 
-root = Tk()
-root.after_id = None
-size = (19, 10)
-scale = 100
-c = Canvas(root, width=size[0]*scale, height=size[1]*scale, bg='light green')
-c.pack()
-root.bind('<Up>', up)
-root.bind('<Down>', down)
-root.bind('<Left>', left)
-root.bind('<Right>', right)
-root.bind('<w>', up)
-root.bind('<s>', down)
-root.bind('<d>', right)
-root.bind('<a>', left)
-root.bind('<space>', game_start)
-walls = set()
-for y in range(size[1]):
-    walls.add((0, y))
-    walls.add((size[0] - 1, y))
-for x in range(size[0]):
-    walls.add((x, 0))
-    walls.add((x, size[1] - 1))
-all = set()
-for i in range(size[0]):
-    for j in range(size[1]):
-        all.add((i, j))
-bstscore = 0
-game_start(True)
-root.mainloop()
+if __name__ == "__main__":
+    root = Tk()
+    root.after_id = None
+    size = (19, 10)
+    scale = 100
+    c = Canvas(root, width=size[0]*scale, height=size[1]*scale, bg='light green')
+    c.pack()
+    root.bind('<Up>', up)
+    root.bind('<Down>', down)
+    root.bind('<Left>', left)
+    root.bind('<Right>', right)
+    root.bind('<w>', up)
+    root.bind('<s>', down)
+    root.bind('<d>', right)
+    root.bind('<a>', left)
+    root.bind('<space>', game_start)
+    walls = set()
+    for y in range(size[1]):
+        walls.add((0, y))
+        walls.add((size[0] - 1, y))
+    for x in range(size[0]):
+        walls.add((x, 0))
+        walls.add((x, size[1] - 1))
+    all = set()
+    for i in range(size[0]):
+        for j in range(size[1]):
+            all.add((i, j))
+    bstscore = 0
+    game_start(True)
+    root.mainloop()
