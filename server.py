@@ -46,5 +46,5 @@ class Lobby:
         return self.server.recv(conn)
 
 
-game = Lobby()
-
+if __name__ == "__name__":
+    lobby = Lobby()
