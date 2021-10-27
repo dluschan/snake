@@ -3,10 +3,11 @@ from socket import timeout
 from game import Game
 
 
-class Lobby:
+class GameServer:
+
     def __init__(self):
-        self.client = None
-        self.game = None
+        self.clients = []
+        self.games = []
         self.server = Server()
         self.main()
 

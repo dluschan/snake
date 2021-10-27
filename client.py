@@ -1,4 +1,4 @@
-from tkinter import Canvas, Tk
+import tkinter
 from json import loads
 from network import Client
 from threading import Timer
@@ -6,18 +6,31 @@ from threading import Timer
 
 class Player:
     def __init__(self):
-        self.server = None
-        self.nc = None
-        self.root = Tk()
+        self.root = tkinter.Tk()
+        self.root.title("snake")
+        self.root.geometry("1920x1080")
+        self.login_entry = tkinter.Entry(self.root, text="Login")
+        self.server_entry = tkinter.Entry(self.root, text="Server")
+        self.connect_btn = tkinter.Button(self.root, text="Connect to server", command=self.start)
+        self.connect_btn.pack()
+        self.login_entry.pack()
+        self.server_entry.pack()
         self.canvas = None
         self.scale = 100
         self.root.bind('<Up>', self.up)
         self.root.bind('<Down>', self.down)
         self.root.bind('<Left>', self.left)
         self.root.bind('<Right>', self.right)
+        self.root.mainloop()
+
+    def start(self):
+        self.server = None
+        self.nc = None
+        self.nc = Client()
         self.timer = Timer(0.01, self.game_update)
         self.timer.start()
-        self.root.mainloop()
+        self.connect_btn["state"] = "disabled"
+        print(1)
 
     def up(self, event):
         self.send('u')
@@ -32,13 +45,9 @@ class Player:
         self.send('r')
 
     def send(self, msg):
-        if self.nc is None:
-            self.nc = Client()
         self.nc.send(msg)
 
     def recv(self):
-        if self.nc is None:
-            self.nc = Client()
         return self.nc.recv()
 
     def game_update(self):
@@ -55,7 +64,7 @@ class Player:
         score = level["score"]
 
         if not self.canvas:
-            self.canvas = Canvas(self.root, width=size[0]*scale, height=size[1]*scale, bg='light green')
+            self.canvas = tkinter.Canvas(self.root, width=size[0] * scale, height=size[1] * scale, bg='light green')
             self.canvas.pack()
 
         self.canvas.delete("all")
