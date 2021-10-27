@@ -45,4 +45,4 @@ class GameServer:
 
 
 if __name__ == "__main__":
-    lobby = Lobby()
+    lobby = GameServer()
