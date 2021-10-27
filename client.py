@@ -6,12 +6,15 @@ from threading import Timer
 
 class Player:
     def __init__(self):
+        self.server = None
+        self.nc = None
+        self.timer = None
         self.root = tkinter.Tk()
         self.root.title("snake")
         self.root.geometry("1920x1080")
         self.login_entry = tkinter.Entry(self.root, text="Login")
         self.server_entry = tkinter.Entry(self.root, text="Server")
-        self.connect_btn = tkinter.Button(self.root, text="Connect to server", command=self.start)
+        self.connect_btn = tkinter.Button(self.root, text="Connect to server", command=self.connect)
         self.connect_btn.pack()
         self.login_entry.pack()
         self.server_entry.pack()
@@ -23,14 +26,22 @@ class Player:
         self.root.bind('<Right>', self.right)
         self.root.mainloop()
 
-    def start(self):
-        self.server = None
-        self.nc = None
+    def connect(self):
         self.nc = Client()
+        login = self.login_entry.get()
+        print(login)
+        self.send(login)
+        data = loads(self.recv())
+        assert data[0] == 0
+        games = data[1]
+        logins = data[2]
+        print(games)
+        print(logins)
+        # TODO создать и показать следующее окно приложения: список лобби (под ним кнопка "новое") и список игроков
+
+    def start(self):
         self.timer = Timer(0.01, self.game_update)
         self.timer.start()
-        self.connect_btn["state"] = "disabled"
-        print(1)
 
     def up(self, event):
         self.send('u')
